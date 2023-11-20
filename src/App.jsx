@@ -1,47 +1,63 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import RegistrationForm from './components/RegistrationForm.jsx';
+import LoginForm from './components/LoginForm.jsx';
+import PostList from './components/PostList.jsx';
+import NewListingForm from './components/NewListingForm.jsx';
+import Modal from './components/Modal.jsx';
 import './App.css';
 
-function PostList() {
-  const [posts, setPosts] = useState([]);
+function App() {
+  const cohortName = '2306-FTB-MT-WEB-PT';
+  const baseURL = `https://strangers-things.herokuapp.com/api/${cohortName}`;
+  const [showModal, setShowModal] = useState(false);
+  const [authToken, setAuthToken] = useState(null);
 
-  useEffect(() => {
-    const cohortName = '2306-FTB-MT-WEB-PT';
-    const baseURL = `https://strangers-things.herokuapp.com/api/${cohortName}`;
-
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`${baseURL}/posts`);
-        const data = await response.json();
-        setPosts(data.data.posts); // Update state with fetched posts
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
+    // Assume a function to update the authToken after login
+    const handleLogin = (token) => {
+      setAuthToken(token);
     };
 
-    fetchPosts();
-  }, []);
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-  return (
-    <div className="container">
-      <h2>Posts</h2>
-      <ul>
-        {posts.map((post) => (
-          <li key={post._id}>
-            <h3>{post.title} | {post.price}</h3>
-            <p>{post.description}</p>
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+  const handleNewListingFormSubmit = async (formData) => {
+    try {
+      // Perform the fetch request to create a new listing
+      // ...
 
-function App() {
+      // Close the modal after the form is submitted successfully
+      closeModal();
+    } catch (error) {
+      console.error('Error creating listing:', error);
+    }
+  };
+
   return (
     <>
       <div>
-        <PostList />
+      <button className="create" onClick={openModal}>Create New Listing</button>
+      <PostList />
+      </div>
+      {showModal && (
+        <Modal isOpen={showModal} onClose={closeModal}>
+          <NewListingForm
+            baseURL={baseURL}
+            authToken={authToken}
+            updatePosts={() => {}} // Replace with your updatePosts function
+            onSubmit={handleNewListingFormSubmit} // Pass the submit function to the form
+          />
+        </Modal>
+      )}
+      <div>
+        <h3>Sign In</h3>
+        <LoginForm baseURL={baseURL} />
+        <h3>or Sign Up</h3>
+        <RegistrationForm baseURL={baseURL} />
       </div>
     </>
   );
