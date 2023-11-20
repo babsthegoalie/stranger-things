@@ -42,7 +42,7 @@ const NewListingForm = ({ baseURL, authToken, updatePosts }) => {
 
       // Update state with the new post
       updatePosts(newPost.data.post);
-      // You can handle success feedback or update UI as needed here
+      // Handle success feedback or update UI as needed here
     } catch (error) {
       console.error('Error creating new post:', error);
       // Handle error cases

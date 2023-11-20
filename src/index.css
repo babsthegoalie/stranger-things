@@ -242,26 +242,18 @@ p {
 .new-listing-form {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  max-width: 100%;
   margin-bottom: 30px;
 }
 
 .new-listing-form input {
   padding: 8px;
   margin-bottom: 10px;
+  margin-top: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.new-listing-formn {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
